@@ -7,20 +7,27 @@ const User = require('../../models/User');
 const { validateRegisterInput, validateLoginInput } = require('../../common/validators');
 
 module.exports = {
+    Query: {
+        getUsers: getUsers
+    },
     Mutation: {
         register: register,
         login: login
     }
 }
 
+async function getUsers() {
+    return await User.find();
+}
+
 function asUserWithToken(user) {
     const token = jwt.sign({
-        id: user._id,
+        id: user.id,
         email: user.email,
         username: user.username
     }, SECRET_KEY, { expiresIn: '1h' });
     return {
-        id: user._id,
+        id: user.id,
         token,
         username: user.username,
         email: user.email,
