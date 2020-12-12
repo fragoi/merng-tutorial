@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const { SECRET_KEY } = require('../../config');
 const User = require('../../models/User');
-const { validateRegisterInput, validateLoginInput } = require('../../validators');
+const { validateRegisterInput, validateLoginInput } = require('../../common/validators');
 
 module.exports = {
     Mutation: {
