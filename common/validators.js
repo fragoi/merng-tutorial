@@ -1,8 +1,3 @@
-module.exports = {
-    validateRegisterInput,
-    validateLoginInput
-}
-
 function validateRegisterInput(username, email, password, confirmPassword) {
     const errors = {};
     if (username.trim() === '') {
@@ -36,4 +31,9 @@ function validateLoginInput(username, password) {
         errors,
         valid: Object.keys(errors).length == 0
     };
+}
+
+module.exports = {
+    validateRegisterInput,
+    validateLoginInput
 }

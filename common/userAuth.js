@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const { SECRET_KEY } = require('../config');
 
-module.exports = authenticate;
-
 function authenticate(context) {
     const authorization = context.headers.authorization;
     if (!authorization) {
@@ -20,3 +18,5 @@ function authenticate(context) {
         throw new AuthenticationError('Invalid token', e);
     }
 }
+
+module.exports = authenticate;

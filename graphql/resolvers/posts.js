@@ -1,17 +1,6 @@
 const Post = require('../../models/Post');
 const userAuth = require('../../common/userAuth');
 
-module.exports = {
-    Query: {
-        getPosts,
-        getPost
-    },
-    Mutations: {
-        createPost,
-        deletePost
-    }
-}
-
 async function getPosts() {
     return await Post.find().sort({ createdAt: -1 });
 }
@@ -43,4 +32,15 @@ async function deletePost(_, { postId }, context) {
         user: token.id
     });
     return deletion.deletedCount;
+}
+
+module.exports = {
+    Query: {
+        getPosts,
+        getPost
+    },
+    Mutations: {
+        createPost,
+        deletePost
+    }
 }

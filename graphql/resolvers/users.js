@@ -6,16 +6,6 @@ const { SECRET_KEY } = require('../../config');
 const { validateRegisterInput, validateLoginInput } = require('../../common/validators');
 const User = require('../../models/User');
 
-module.exports = {
-    Query: {
-        getUsers
-    },
-    Mutation: {
-        register,
-        login
-    }
-}
-
 async function getUsers() {
     return await User.find();
 }
@@ -73,4 +63,14 @@ async function login(_, { username, password }) {
         throw new UserInputError('Wrong credentials');
     }
     return asUserWithToken(user);
+}
+
+module.exports = {
+    Query: {
+        getUsers
+    },
+    Mutation: {
+        register,
+        login
+    }
 }
