@@ -3,16 +3,16 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const { SECRET_KEY } = require('../../config');
-const User = require('../../models/User');
 const { validateRegisterInput, validateLoginInput } = require('../../common/validators');
+const User = require('../../models/User');
 
 module.exports = {
     Query: {
-        getUsers: getUsers
+        getUsers
     },
     Mutation: {
-        register: register,
-        login: login
+        register,
+        login
     }
 }
 

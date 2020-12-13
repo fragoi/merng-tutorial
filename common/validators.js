@@ -1,6 +1,6 @@
 module.exports = {
-    validateRegisterInput: validateRegisterInput,
-    validateLoginInput: validateLoginInput
+    validateRegisterInput,
+    validateLoginInput
 }
 
 function validateRegisterInput(username, email, password, confirmPassword) {

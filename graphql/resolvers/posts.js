@@ -3,12 +3,12 @@ const userAuth = require('../../common/userAuth');
 
 module.exports = {
     Query: {
-        getPosts: getPosts,
-        getPost: getPost
+        getPosts,
+        getPost
     },
     Mutations: {
-        createPost: createPost,
-        deletePost: deletePost
+        createPost,
+        deletePost
     }
 }
 
