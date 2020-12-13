@@ -12,7 +12,7 @@ function authenticate(context) {
     }
     const token = authorization.substring('Bearer '.length);
     if (!token) {
-        throw new AuthenticationError('Missing authorization token');
+        throw new AuthenticationError('Missing authentication token');
     }
     try {
         return jwt.verify(token, SECRET_KEY);
