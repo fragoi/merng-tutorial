@@ -21,7 +21,7 @@ function asUserWithToken(user) {
         token,
         username: user.username,
         email: user.email,
-        createdAt: user.createdAt.toISOString()
+        createdAt: user.createdAt
     };
 }
 
