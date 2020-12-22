@@ -7,7 +7,7 @@ const { validateRegisterInput, validateLoginInput } = require('../../common/vali
 const User = require('../../models/User');
 
 async function getUsers() {
-    return await User.find();
+    return await User.find().sort({ createdAt: -1 });
 }
 
 function asUserWithToken(user) {
