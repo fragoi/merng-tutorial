@@ -25,6 +25,6 @@ module.exports = {
     },
     Mutation: {
         ...usersResolvers.Mutation,
-        ...postsResolvers.Mutations
+        ...postsResolvers.Mutation
     }
 }

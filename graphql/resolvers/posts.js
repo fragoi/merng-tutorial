@@ -1,3 +1,5 @@
+const { UserInputError } = require('apollo-server');
+
 const Post = require('../../models/Post');
 const userAuth = require('../../common/userAuth');
 
@@ -6,15 +8,14 @@ async function getPosts() {
 }
 
 async function getPost(_, { postId }) {
-    const post = await Post.findById(postId);
-    if (!post) {
-        throw new Error('Post not found');
-    }
-    return post;
+    return await _requirePost(postId);
 }
 
 async function createPost(_, { body }, context) {
     const token = userAuth(context);
+    if (body.trim() === '') {
+        throw new UserInputError('Post body is empty');
+    }
     const newPost = new Post({
         body,
         username: token.username,
@@ -34,13 +35,64 @@ async function deletePost(_, { postId }, context) {
     return deletion.deletedCount;
 }
 
+async function createComment(_, { postId, body }, context) {
+    const token = userAuth(context);
+    if (body.trim() === '') {
+        throw new UserInputError('Comment body is empty');
+    }
+    const post = await _requirePost(postId);
+    post.comments.unshift({
+        body,
+        username: token.username,
+        createdAt: new Date()
+    });
+    await post.save();
+    return post;
+}
+
+async function deleteComment(_, { postId, commentId }, context) {
+    const token = userAuth(context);
+    const post = await _requirePost(postId);
+    const commentIndex = post.comments.findIndex(c => c.id === commentId);
+    if (commentIndex > -1
+        && post.comments[commentIndex].username === token.username) {
+        post.comments.splice(commentIndex, 1);
+        await post.save();
+    }
+    return post;
+}
+
+async function likePost(_, { postId }, context) {
+    const token = userAuth(context);
+    const post = await _requirePost(postId);
+    const likeIndex = post.likes.findIndex(l => l.username === token.username);
+    if (likeIndex > -1) {
+        post.likes.splice(likeIndex, 1);
+    } else {
+        post.likes.push({
+            username: token.username,
+            createdAt: new Date()
+        });
+    }
+    await post.save();
+    return post;
+}
+
+function _requirePost(postId) {
+    return Post.findById(postId)
+        .orFail(() => Error('Post not found'));
+}
+
 module.exports = {
     Query: {
         getPosts,
         getPost
     },
-    Mutations: {
+    Mutation: {
         createPost,
-        deletePost
+        deletePost,
+        createComment,
+        deleteComment,
+        likePost
     }
 }
