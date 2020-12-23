@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../config');
 
 function authenticate(context) {
-    const authorization = context.headers.authorization;
+    const authorization = context.req.headers.authorization;
     if (!authorization) {
         throw new AuthenticationError('Missing authorization header');
     }

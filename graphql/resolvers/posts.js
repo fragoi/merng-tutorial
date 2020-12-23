@@ -23,6 +23,9 @@ async function createPost(_, { body }, context) {
         user: token.id
     });
     const savedPost = await newPost.save();
+    context.pubsub.publish('NEW_POST', {
+        newPost: savedPost
+    });
     return savedPost;
 }
 
@@ -86,6 +89,10 @@ function likesCount(parent) {
     return parent.likes.length;
 }
 
+function subscribeNewPost(_, __, { pubsub }) {
+    return pubsub.asyncIterator('NEW_POST');
+}
+
 function _requirePost(postId) {
     return Post.findById(postId)
         .orFail(() => Error('Post not found'));
@@ -106,5 +113,10 @@ module.exports = {
         createComment,
         deleteComment,
         likePost
+    },
+    Subscription: {
+        newPost: {
+            subscribe: subscribeNewPost
+        }
     }
 }
