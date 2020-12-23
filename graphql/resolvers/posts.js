@@ -78,12 +78,24 @@ async function likePost(_, { postId }, context) {
     return post;
 }
 
+function commentsCount(parent) {
+    return parent.comments.length;
+}
+
+function likesCount(parent) {
+    return parent.likes.length;
+}
+
 function _requirePost(postId) {
     return Post.findById(postId)
         .orFail(() => Error('Post not found'));
 }
 
 module.exports = {
+    Post: {
+        commentsCount,
+        likesCount
+    },
     Query: {
         getPosts,
         getPost

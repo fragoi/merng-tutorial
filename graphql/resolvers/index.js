@@ -19,6 +19,7 @@ const dateScalarType = new GraphQLScalarType({
 
 module.exports = {
     Date: dateScalarType,
+    Post: postsResolvers.Post,
     Query: {
         ...usersResolvers.Query,
         ...postsResolvers.Query
