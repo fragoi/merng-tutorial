@@ -10,21 +10,6 @@ async function getUsers() {
     return await User.find().sort({ createdAt: -1 });
 }
 
-function asUserWithToken(user) {
-    const token = jwt.sign({
-        id: user.id,
-        email: user.email,
-        username: user.username
-    }, SECRET_KEY, { expiresIn: '1h' });
-    return {
-        id: user.id,
-        token,
-        username: user.username,
-        email: user.email,
-        createdAt: user.createdAt
-    };
-}
-
 async function register(_, { registerInput: { username, email, password, confirmPassword } }) {
     const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
     if (!valid) {
@@ -46,7 +31,7 @@ async function register(_, { registerInput: { username, email, password, confirm
         createdAt: new Date()
     });
     const savedUser = await newUser.save();
-    return asUserWithToken(savedUser);
+    return _asUserWithToken(savedUser);
 }
 
 async function login(_, { username, password }) {
@@ -62,7 +47,22 @@ async function login(_, { username, password }) {
     if (!match) {
         throw new UserInputError('Wrong credentials');
     }
-    return asUserWithToken(user);
+    return _asUserWithToken(user);
+}
+
+function _asUserWithToken(user) {
+    const token = jwt.sign({
+        id: user.id,
+        email: user.email,
+        username: user.username
+    }, SECRET_KEY, { expiresIn: '1h' });
+    return {
+        id: user.id,
+        token,
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt
+    };
 }
 
 module.exports = {
