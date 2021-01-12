@@ -5,19 +5,27 @@ const { MONGODB_URL } = require('./config.js');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 
-const pubsub = new PubSub();
+async function sayHello() {
+    console.log('Hello!');
+}
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req }) => ({ req, pubsub })
-});
-
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('DB connected');
-        return server.listen({ port: 5000 })
-    })
-    .then(res => {
-        console.log(`Server running at ${res.url}`);
+async function connectDB() {
+    await mongoose.connect(MONGODB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     });
+    console.log('DB connected');
+}
+
+async function runServer() {
+    const pubsub = new PubSub();
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        context: ({ req }) => ({ req, pubsub })
+    });
+    const res = await server.listen({ port: 5000 });
+    console.log(`Server running at ${res.url}`);
+}
+
+sayHello().then(connectDB).then(runServer);
