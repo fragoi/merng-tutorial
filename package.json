@@ -4,6 +4,7 @@
   "description": "MERNG Tutorial",
   "main": "index.js",
   "scripts": {
+    "serve": "node index",
     "start": "nodemon --inspect index"
   },
   "author": "Fra",
