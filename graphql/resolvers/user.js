@@ -6,11 +6,11 @@ const { SECRET_KEY } = require('../../config');
 const { validateRegisterInput, validateLoginInput } = require('../../common/validators');
 const User = require('../../models/User');
 
-async function getUsers() {
+async function users() {
     return await User.find().sort({ createdAt: -1 });
 }
 
-async function register(_, { registerInput: { username, email, password, confirmPassword } }) {
+async function signup(_, { input: { username, email, password, confirmPassword } }) {
     const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
     if (!valid) {
         throw new UserInputError('validateRegisterInput', { errors });
@@ -34,7 +34,7 @@ async function register(_, { registerInput: { username, email, password, confirm
     return _asUserWithToken(savedUser);
 }
 
-async function login(_, { username, password }) {
+async function signin(_, { username, password }) {
     const { valid, errors } = validateLoginInput(username, password);
     if (!valid) {
         throw new UserInputError('validateLoginInput', { errors });
@@ -67,10 +67,10 @@ function _asUserWithToken(user) {
 
 module.exports = {
     Query: {
-        getUsers
+        users
     },
     Mutation: {
-        register,
-        login
+        signup,
+        signin
     }
 }

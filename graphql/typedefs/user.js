@@ -11,10 +11,10 @@ module.exports = gql`
   }
 
   extend type Query {
-    getUsers: [User]
+    users: [User]
   }
 
-  input RegisterInput {
+  input SignupInput {
     username: String!
     password: String!
     confirmPassword: String!
@@ -22,8 +22,8 @@ module.exports = gql`
   }
 
   extend type Mutation {
-    register(registerInput: RegisterInput): User!
-    login(username: String!, password: String!): User!
+    signup(input: SignupInput): User!
+    signin(username: String!, password: String!): User!
   }
 
 `;
