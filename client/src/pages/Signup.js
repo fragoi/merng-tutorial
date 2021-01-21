@@ -1,9 +1,11 @@
 import React from 'react';
 
+import PageTitle from '../components/PageTitle';
+
 function Signup() {
   return (
     <div>
-      <h1>Signup</h1>
+      <PageTitle>Signup</PageTitle>
     </div>
   );
 }
