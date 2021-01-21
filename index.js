@@ -2,7 +2,7 @@ const { ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
 
 const { MONGODB_URL } = require('./config.js');
-const typeDefs = require('./graphql/typedefs');
+const typedefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
 
 async function sayHello() {
@@ -20,7 +20,7 @@ async function connectDB() {
 async function runServer() {
     const pubsub = new PubSub();
     const server = new ApolloServer({
-        typeDefs,
+        typedefs,
         resolvers,
         context: ({ req }) => ({ req, pubsub })
     });
