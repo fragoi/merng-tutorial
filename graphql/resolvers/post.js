@@ -1,7 +1,7 @@
 const { UserInputError } = require('apollo-server');
 
 const Post = require('../../models/Post');
-const userAuth = require('../../common/userAuth');
+const userAuth = require('../../common/security');
 
 async function getPosts() {
     return await Post.find().sort({ createdAt: -1 });
