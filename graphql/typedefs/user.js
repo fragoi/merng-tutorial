@@ -11,7 +11,7 @@ module.exports = gql`
   }
 
   extend type Query {
-    users: [User]
+    getUsers: [User]
   }
 
   input SignupInput {

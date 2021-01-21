@@ -6,7 +6,7 @@ const { SECRET_KEY } = require('../../config');
 const { validateRegisterInput, validateLoginInput } = require('../../common/validators');
 const User = require('../../models/User');
 
-async function users() {
+async function getUsers() {
     return await User.find().sort({ createdAt: -1 });
 }
 
@@ -67,7 +67,7 @@ function _asUserWithToken(user) {
 
 module.exports = {
     Query: {
-        users
+        getUsers
     },
     Mutation: {
         signup,
