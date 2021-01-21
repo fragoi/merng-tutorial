@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const { SECRET_KEY } = require('../../config');
-const { validateRegisterInput, validateLoginInput } = require('../../common/validators');
+const { validateSignupInput, validateSigninInput } = require('../../common/validators');
 const User = require('../../models/User');
 
 async function getUsers() {
@@ -11,9 +11,9 @@ async function getUsers() {
 }
 
 async function signup(_, { input: { username, email, password, confirmPassword } }) {
-    const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
+    const { valid, errors } = validateSignupInput(username, email, password, confirmPassword);
     if (!valid) {
-        throw new UserInputError('validateRegisterInput', { errors });
+        throw new UserInputError('validateSignupInput', { errors });
     }
     const user = await User.findOne({ username });
     if (user) {
@@ -35,9 +35,9 @@ async function signup(_, { input: { username, email, password, confirmPassword }
 }
 
 async function signin(_, { username, password }) {
-    const { valid, errors } = validateLoginInput(username, password);
+    const { valid, errors } = validateSigninInput(username, password);
     if (!valid) {
-        throw new UserInputError('validateLoginInput', { errors });
+        throw new UserInputError('validateSigninInput', { errors });
     }
     const user = await User.findOne({ username });
     if (!user) {

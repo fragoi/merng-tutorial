@@ -1,4 +1,4 @@
-function validateRegisterInput(username, email, password, confirmPassword) {
+function validateSignupInput(username, email, password, confirmPassword) {
     const errors = {};
     if (username.trim() === '') {
         errors.username = 'Username must not be empty';
@@ -19,7 +19,7 @@ function validateRegisterInput(username, email, password, confirmPassword) {
     };
 }
 
-function validateLoginInput(username, password) {
+function validateSigninInput(username, password) {
     const errors = {};
     if (username.trim() === '') {
         errors.username = 'Username must not be empty';
@@ -34,6 +34,6 @@ function validateLoginInput(username, password) {
 }
 
 module.exports = {
-    validateRegisterInput,
-    validateLoginInput
+    validateSignupInput,
+    validateSigninInput
 }
