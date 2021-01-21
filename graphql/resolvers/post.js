@@ -1,7 +1,7 @@
 const { UserInputError } = require('apollo-server');
 
 const Post = require('../../models/Post');
-const userAuth = require('../../common/security');
+const { authenticate } = require('../../common/security');
 
 async function getPosts() {
     return await Post.find().sort({ createdAt: -1 });
@@ -12,7 +12,7 @@ async function getPost(_, { postId }) {
 }
 
 async function createPost(_, { body }, context) {
-    const token = userAuth(context);
+    const token = authenticate(context);
     if (body.trim() === '') {
         throw new UserInputError('Post body is empty');
     }
@@ -30,7 +30,7 @@ async function createPost(_, { body }, context) {
 }
 
 async function deletePost(_, { postId }, context) {
-    const token = userAuth(context);
+    const token = authenticate(context);
     const deletion = await Post.deleteOne({
         _id: postId,
         user: token.id
@@ -39,7 +39,7 @@ async function deletePost(_, { postId }, context) {
 }
 
 async function createComment(_, { postId, body }, context) {
-    const token = userAuth(context);
+    const token = authenticate(context);
     if (body.trim() === '') {
         throw new UserInputError('Comment body is empty');
     }
@@ -54,7 +54,7 @@ async function createComment(_, { postId, body }, context) {
 }
 
 async function deleteComment(_, { postId, commentId }, context) {
-    const token = userAuth(context);
+    const token = authenticate(context);
     const post = await _requirePost(postId);
     const commentIndex = post.comments.findIndex(c => c.id === commentId);
     if (commentIndex > -1
@@ -66,7 +66,7 @@ async function deleteComment(_, { postId, commentId }, context) {
 }
 
 async function likePost(_, { postId }, context) {
-    const token = userAuth(context);
+    const token = authenticate(context);
     const post = await _requirePost(postId);
     const likeIndex = post.likes.findIndex(l => l.username === token.username);
     if (likeIndex > -1) {
