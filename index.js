@@ -2,7 +2,7 @@ const { ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
 
 const { MONGODB_URL } = require('./config.js');
-const typeDefs = require('./graphql/typeDefs');
+const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
 
 async function sayHello() {
