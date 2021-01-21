@@ -1,7 +1,7 @@
 const { GraphQLScalarType, Kind } = require('graphql');
 
-const postsResolvers = require('./posts');
-const usersResolvers = require('./users');
+const postsResolvers = require('./post');
+const usersResolvers = require('./user');
 
 const dateScalarType = new GraphQLScalarType({
     name: 'Date',
