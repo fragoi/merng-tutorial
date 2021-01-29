@@ -19,6 +19,4 @@ function authenticate(context) {
   }
 }
 
-module.exports = {
-  authenticate
-};
+module.exports = authenticate;
