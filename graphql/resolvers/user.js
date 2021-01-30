@@ -10,8 +10,8 @@ async function getUsers() {
   return await User.find().sort({ createdAt: -1 });
 }
 
-async function signup(_, { input: { username, email, password, confirmPassword } }) {
-  const { valid, errors } = validateSignupInput(username, email, password, confirmPassword);
+async function signup(_, { input: { username, email, password, passwordConfirm } }) {
+  const { valid, errors } = validateSignupInput(username, email, password, passwordConfirm);
   if (!valid) {
     throw new UserInputError('validateSignupInput', { errors });
   }

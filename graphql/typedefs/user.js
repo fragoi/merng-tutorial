@@ -17,7 +17,7 @@ module.exports = gql`
   input SignupInput {
     username: String!
     password: String!
-    confirmPassword: String!
+    passwordConfirm: String!
     email: String!
   }
 

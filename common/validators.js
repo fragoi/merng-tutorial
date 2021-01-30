@@ -1,4 +1,4 @@
-function validateSignupInput(username, email, password, confirmPassword) {
+function validateSignupInput(username, email, password, passwordConfirm) {
   const errors = {};
   if (username.trim() === '') {
     errors.username = 'Username must not be empty';
@@ -10,8 +10,8 @@ function validateSignupInput(username, email, password, confirmPassword) {
   }
   if (password === '') {
     errors.password = 'Password must not be empty';
-  } else if (password != confirmPassword) {
-    errors.confirmPassword = 'Confirm password must match password';
+  } else if (password != passwordConfirm) {
+    errors.passwordConfirm = 'Confirm password must match password';
   }
   return {
     errors,
