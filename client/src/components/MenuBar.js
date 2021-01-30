@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
-export default function MenuBar() {
+function MenuBar() {
   const pathname = window.location.pathname;
   const name = pathname === '/' ? 'home' : pathname.substr(1);
 
@@ -38,3 +38,5 @@ export default function MenuBar() {
     </Menu>
   );
 }
+
+export default MenuBar;
