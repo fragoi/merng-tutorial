@@ -2,3 +2,7 @@
   text-align: center;
   font-style: italic;
 }
+
+.ui.form .field.form-field .ui.input {
+  width: 25%;
+}
