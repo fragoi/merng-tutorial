@@ -3,6 +3,8 @@
   font-style: italic;
 }
 
-.ui.form .field.form-field .ui.input {
-  width: 25%;
+.myui.form-container-small {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }

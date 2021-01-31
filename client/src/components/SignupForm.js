@@ -42,54 +42,38 @@ function FormRenderer({ loading, errors, values, handleChange, handleSubmit }) {
   return (
     <Form onSubmit={handleSubmit} loading={loading}>
       <Form.Input
-        className='form-field'
         label='Username'
         placeholder='Username'
         name='username'
         value={values.username}
         onChange={handleChange}
-        error={errors?.username && {
-          content: errors.username,
-          pointing: 'left'
-        }}
+        error={errors?.username}
       />
       <Form.Input
-        className='form-field'
-        type='password'
         label='Password'
         placeholder='Password'
+        type='password'
         name='password'
         value={values.password}
         onChange={handleChange}
-        error={errors?.password && {
-          content: errors.password,
-          pointing: 'left'
-        }}
+        error={errors?.password}
       />
       <Form.Input
-        className='form-field'
-        type='password'
         label='Confirm Password'
         placeholder='Confirm Password'
+        type='password'
         name='passwordConfirm'
         value={values.passwordConfirm}
         onChange={handleChange}
-        error={errors?.passwordConfirm && {
-          content: errors.passwordConfirm,
-          pointing: 'left'
-        }}
+        error={errors?.passwordConfirm}
       />
       <Form.Input
-        className='form-field'
         label='Email'
         placeholder='Email'
         name='email'
         value={values.email}
         onChange={handleChange}
-        error={errors?.email && {
-          content: errors.email,
-          pointing: 'left'
-        }}
+        error={errors?.email}
       />
       <Form.Checkbox label='I agree to the Terms and Conditions' />
       <Button type='submit'>Submit</Button>
