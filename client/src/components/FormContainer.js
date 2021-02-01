@@ -2,7 +2,7 @@ import React from 'react';
 
 function FormContainer({ size, children }) {
   return (
-    <div class={`myui form-container-${size}`}>
+    <div className={`myui form-container-${size}`}>
       {children}
     </div>
   );
