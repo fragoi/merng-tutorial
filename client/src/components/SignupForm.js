@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
 import { Form, Button, Message } from 'semantic-ui-react'
 
@@ -14,8 +15,10 @@ const SIGNUP_MUTATION = gql`
 `;
 
 function SignupForm() {
+  const history = useHistory();
+  const onCompleted = () => history.push('/');
   const formMutation = useFormMutation({
-    useMutation: useMutation(SIGNUP_MUTATION),
+    useMutation: useMutation(SIGNUP_MUTATION, { onCompleted }),
     initialValues: {
       username: '',
       password: '',
