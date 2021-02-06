@@ -26,8 +26,8 @@ test('Chain test', () => {
 test('Immutability', () => {
   const builder = Pipe.builder()
   const f1 = builder.pipe(x => x + 1).build();
-  expect(f1(1)).toBe(2);
   const f2 = builder.pipe(x => x * 2).build();
+  expect(f1(1)).toBe(2);
   expect(f2(1)).toBe(4);
 });
 
@@ -35,10 +35,10 @@ test('NaN', () => {
   const f1 = Pipe.builder()
     .pipe(x => x + 1)
     .build();
-  expect(f1()).toBeNaN();
   const f2 = Pipe.builder()
     .pipe(x => x ? x : 0)
     .pipe(x => x + 1)
     .build();
+  expect(f1()).toBeNaN();
   expect(f2()).toBe(1);
 });
