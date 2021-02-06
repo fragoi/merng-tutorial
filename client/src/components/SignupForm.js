@@ -25,23 +25,39 @@ function SignupForm() {
       passwordConfirm: '',
       email: ''
     },
-    valuesToVariables: (values) => ({ input: values })
+    valuesToVariables,
+    validate
   });
   return FormRenderer(formMutation);
 }
 
-function FormRenderer({ loading, errors, values, handleChange, handleSubmit }) {
+function valuesToVariables(values) {
+  const input = { ...values };
+  delete input.tc;
+  return { input };
+}
+
+function validate(values) {
+  const errors = {};
+  if (!values.tc) {
+    errors.tc = 'You must agree in order to proceed';
+  }
+  return errors;
+}
+
+function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
   let genericErrorMsg;
-  if (!errors) {
-    /* no errors */
-    genericErrorMsg = null;
-  } else if (Object.entries(errors).length !== 0) {
-    /* validation errors */
-    genericErrorMsg = 'There was a problem processing your request, please check your data';
-  } else {
+  if (error.serverError) {
     /* server error */
     genericErrorMsg = 'There was a problem processing your request, please try again later';
+  } else if (error.validationError) {
+    /* validation error */
+    genericErrorMsg = 'There was a problem processing your request, please check your data';
+  } else {
+    /* no errors */
+    genericErrorMsg = null;
   }
+  const { errors } = error;
   return (
     <Form onSubmit={handleSubmit} loading={loading}>
       <Form.Input
@@ -78,7 +94,14 @@ function FormRenderer({ loading, errors, values, handleChange, handleSubmit }) {
         onChange={handleChange}
         error={errors?.email}
       />
-      <Form.Checkbox label='I agree to the Terms and Conditions' />
+      <Form.Checkbox
+        className='block'
+        label='I agree to the Terms and Conditions'
+        name='tc'
+        checked={values.tc}
+        onChange={handleChange}
+        error={errors?.tc}
+      />
       <Button type='submit'>Submit</Button>
       <Message
         error
