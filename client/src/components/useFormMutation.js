@@ -6,11 +6,20 @@ function useFormMutation({
   useMutation: [mutate, { loading }],
   initialValues,
   valuesToVariables = values => values,
-  validate = values => null
+  validate = values => null,
+  formName
 }) {
   /* states for error and values */
   const [error, setError] = useState({});
   const [values, setValues] = useState(initialValues);
+
+  /* this is to deal with autofill */
+  const [touched, setTouched] = useState(formName ? false : true);
+  const touch = () => {
+    if (touched) return;
+    formValues(formName, values);
+    setTouched(true);
+  };
 
   /* functions to handle errors from server and validation */
   const handleServerError = pipe(serverError, setError);
@@ -35,6 +44,7 @@ function useFormMutation({
 
   /* handles values changes */
   const handleChange = (event, target) => {
+    touch();
     const { name, value } = nameAndValueFromTarget(target);
     setValues({ ...values, [name]: value });
     removeValidationError(error, name);
@@ -43,6 +53,7 @@ function useFormMutation({
   /* handles submit */
   const handleSubmit = event => {
     event.preventDefault();
+    touch();
     validateAndSubmit(values);
   };
 
@@ -53,6 +64,14 @@ function useFormMutation({
     handleChange,
     handleSubmit
   };
+}
+
+function formValues(formName, values) {
+  const form = document.forms[formName];
+  Object.keys(values).forEach(k => {
+    values[k] = nameAndValueFromTarget(form[k]).value;
+  });
+  return values;
 }
 
 /**

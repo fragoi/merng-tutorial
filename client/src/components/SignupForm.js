@@ -19,11 +19,13 @@ function SignupForm() {
   const onCompleted = () => history.push('/');
   const formMutation = useFormMutation({
     useMutation: useMutation(SIGNUP_MUTATION, { onCompleted }),
+    formName: 'signup',
     initialValues: {
       username: '',
       password: '',
       passwordConfirm: '',
-      email: ''
+      email: '',
+      tc: false
     },
     valuesToVariables,
     validate
@@ -59,7 +61,11 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
   }
   const { errors } = error;
   return (
-    <Form onSubmit={handleSubmit} loading={loading}>
+    <Form
+      name='signup'
+      onSubmit={handleSubmit}
+      loading={loading}
+      error={genericErrorMsg ? true : false}>
       <Form.Input
         label='Username'
         placeholder='Username'
@@ -105,7 +111,6 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
       <Button type='submit'>Submit</Button>
       <Message
         error
-        visible={genericErrorMsg ? true : false}
         header='Something went wrong :('
         content={genericErrorMsg}
       />
