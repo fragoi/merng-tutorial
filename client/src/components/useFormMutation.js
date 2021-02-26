@@ -14,11 +14,11 @@ function useFormMutation({
   const [values, setValues] = useState(initialValues);
 
   /* this is to deal with autofill */
-  const [touched, setTouched] = useState(formName ? false : true);
-  const touch = () => {
-    if (touched) return;
+  const [autofilled, setAutofilled] = useState(formName ? false : true);
+  const autofill = () => {
+    if (autofilled) return;
     formValues(formName, values);
-    setTouched(true);
+    setAutofilled(true);
   };
 
   /* functions to handle errors from server and validation */
@@ -44,8 +44,9 @@ function useFormMutation({
 
   /* handles values changes */
   const handleChange = (event, target) => {
-    touch();
-    const { name, value } = nameAndValueFromTarget(target);
+    autofill();
+    const { name } = target;
+    const value = inputValue(target);
     setValues({ ...values, [name]: value });
     removeValidationError(error, name);
   };
@@ -53,7 +54,7 @@ function useFormMutation({
   /* handles submit */
   const handleSubmit = event => {
     event.preventDefault();
-    touch();
+    autofill();
     validateAndSubmit(values);
   };
 
@@ -69,17 +70,17 @@ function useFormMutation({
 function formValues(formName, values) {
   const form = document.forms[formName];
   Object.keys(values).forEach(k => {
-    values[k] = nameAndValueFromTarget(form[k]).value;
+    values[k] = inputValue(form[k]);
   });
   return values;
 }
 
 /**
- * Returns the name and the adapted value from the target input element.
+ * Returns the adapted value from the target input element.
  * 
  * @param target the target input element
  */
-function nameAndValueFromTarget({ name, type, value, checked }) {
+function inputValue({ type, value, checked }) {
   if (type === 'checkbox') {
     if (value) {
       value = checked ? value : undefined;
@@ -87,7 +88,7 @@ function nameAndValueFromTarget({ name, type, value, checked }) {
       value = checked;
     }
   }
-  return { name, value };
+  return value;
 }
 
 /**
