@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { pipe } from '../utils/FUtils';
+import { useAutofill, inputValue } from '../utils/FormUtils';
 
 function useFormMutation({
   useMutation: [mutate, { loading }],
@@ -14,12 +15,7 @@ function useFormMutation({
   const [values, setValues] = useState(initialValues);
 
   /* this is to deal with autofill */
-  const [autofilled, setAutofilled] = useState(formName ? false : true);
-  const autofill = () => {
-    if (autofilled) return;
-    formValues(formName, values);
-    setAutofilled(true);
-  };
+  const autofill = useAutofill(formName);
 
   /* functions to handle errors from server and validation */
   const handleServerError = pipe(serverError, setError);
@@ -44,7 +40,7 @@ function useFormMutation({
 
   /* handles values changes */
   const handleChange = (event, target) => {
-    autofill();
+    autofill(values);
     const { name } = target;
     const value = inputValue(target);
     setValues({ ...values, [name]: value });
@@ -54,7 +50,7 @@ function useFormMutation({
   /* handles submit */
   const handleSubmit = event => {
     event.preventDefault();
-    autofill();
+    autofill(values);
     validateAndSubmit(values);
   };
 
@@ -65,30 +61,6 @@ function useFormMutation({
     handleChange,
     handleSubmit
   };
-}
-
-function formValues(formName, values) {
-  const form = document.forms[formName];
-  Object.keys(values).forEach(k => {
-    values[k] = inputValue(form[k]);
-  });
-  return values;
-}
-
-/**
- * Returns the adapted value from the target input element.
- * 
- * @param target the target input element
- */
-function inputValue({ type, value, checked }) {
-  if (type === 'checkbox') {
-    if (value) {
-      value = checked ? value : undefined;
-    } else {
-      value = checked;
-    }
-  }
-  return value;
 }
 
 /**
