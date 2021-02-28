@@ -9,8 +9,9 @@ import { useState } from 'react';
  * current changing value.
  * 
  * @param formName the name of the form
+ * @param defaultValues the object to fill, can be eventually passed in returned function
  */
-export function useAutofill(formName, defaultValues) {
+export function useAutofill(formName, defaultValues = {}) {
   const [filled, setFilled] = useState(formName ? false : true);
   return (values = defaultValues) => {
     if (filled) return false;
@@ -28,8 +29,8 @@ export function useAutofill(formName, defaultValues) {
  * @param formName the name of the form
  * @param values the target object
  */
-function formValues(formName, values) {
-  const form = document.forms[formName];
+export function formValues(formName, values) {
+  const form = document.forms[formName].elements;
   Object.keys(values).forEach(k => {
     values[k] = inputValue(form[k]);
   });

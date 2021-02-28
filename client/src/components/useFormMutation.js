@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { pipe } from '../utils/FUtils';
-import { useAutofill, inputValue } from '../utils/FormUtils';
+import { inputValue, useAutofill } from '../utils/FormUtils';
 
 function useFormMutation({
   useMutation: [mutate, { loading }],
