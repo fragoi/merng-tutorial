@@ -108,7 +108,7 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         onChange={handleChange}
         error={errors?.tc}
       />
-      <Button type='submit'>Submit</Button>
+      <Button type='submit' color='teal'>Submit</Button>
       <Message
         error
         header='Something went wrong :('
