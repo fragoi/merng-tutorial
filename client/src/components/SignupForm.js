@@ -6,7 +6,7 @@ import { Form, Button, Message } from 'semantic-ui-react'
 import useFormMutation from './useFormMutation';
 
 const SIGNUP_MUTATION = gql`
-  mutation Signup($input: SignupInput!) {
+  mutation signup($input: SignupInput!) {
     signup(input: $input) {
       id
       token
