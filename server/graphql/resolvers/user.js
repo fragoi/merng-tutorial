@@ -41,11 +41,19 @@ async function signin(_, { username, password }) {
   }
   const user = await User.findOne({ username });
   if (!user) {
-    throw new UserInputError('User not found');
+    throw new UserInputError('Invalid credentials', {
+      errors: {
+        generic: 'Invalid credentials'
+      }
+    });
   }
   const match = bcrypt.compareSync(password, user.password);
   if (!match) {
-    throw new UserInputError('Wrong credentials');
+    throw new UserInputError('Invalid credentials', {
+      errors: {
+        generic: 'Invalid credentials'
+      }
+    });
   }
   return _asUserWithToken(user);
 }

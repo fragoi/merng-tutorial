@@ -65,7 +65,7 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='username'
         value={values.username}
         onChange={handleChange}
-        error={errors?.username || error.validationError}
+        error={errors?.username}
       />
       <Form.Input
         label='Password'
@@ -74,14 +74,19 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='password'
         value={values.password}
         onChange={handleChange}
-        error={errors?.password || error.validationError}
+        error={errors?.password}
       />
       <Button type='submit' color='teal'>Submit</Button>
-      <Message
-        error
-        header='Something went wrong :('
-        content={genericErrorMsg}
-      />
+      {errors?.generic &&
+        <Message error content={errors?.generic} />
+      }
+      {!errors?.generic &&
+        <Message
+          error
+          header='Something went wrong :('
+          content={genericErrorMsg}
+        />
+      }
     </Form>
   );
 }
