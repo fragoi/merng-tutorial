@@ -1,8 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
-import { Form, Button, Message } from 'semantic-ui-react'
+import { Form, Button, Message } from 'semantic-ui-react';
 
+import ErrorMessage from './ErrorMessage';
 import useFormMutation from './useFormMutation';
 
 const SIGNIN_MUTATION = gql`
@@ -41,24 +42,12 @@ function validate(values) {
 }
 
 function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
-  let genericErrorMsg;
-  if (error.serverError) {
-    /* server error */
-    genericErrorMsg = 'There was a problem processing your request, please try again later';
-  } else if (error.validationError) {
-    /* validation error */
-    genericErrorMsg = 'There was a problem processing your request, please check your data';
-  } else {
-    /* no errors */
-    genericErrorMsg = null;
-  }
   const { errors } = error;
   return (
     <Form
       name='signin'
       onSubmit={handleSubmit}
-      loading={loading}
-      error={genericErrorMsg ? true : false}>
+      loading={loading}>
       <Form.Input
         label='Username'
         placeholder='Username'
@@ -78,14 +67,15 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
       />
       <Button type='submit' color='teal'>Submit</Button>
       {errors?.generic &&
-        <Message error content={errors?.generic} />
-      }
-      {!errors?.generic &&
         <Message
           error
-          header='Something went wrong :('
-          content={genericErrorMsg}
-        />
+          content={errors?.generic}
+          visible={errors?.generic ? true : false} />
+      }
+      {!errors?.generic &&
+        <ErrorMessage
+          serverError={error.serverError}
+          validationError={error.validationError} />
       }
     </Form>
   );
