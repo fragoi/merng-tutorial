@@ -5,6 +5,7 @@ import { Form, Button } from 'semantic-ui-react';
 
 import ErrorMessage from './ErrorMessage';
 import useFormMutation from './useFormMutation';
+import { useAuthContext } from '../context/auth';
 
 const SIGNUP_MUTATION = gql`
   mutation signup($input: SignupInput!) {
@@ -16,8 +17,12 @@ const SIGNUP_MUTATION = gql`
 `;
 
 function SignupForm() {
+  const authContext = useAuthContext();
   const history = useHistory();
-  const onCompleted = () => history.push('/');
+  const onCompleted = data => {
+    authContext.signin(data.signup);
+    history.push('/');
+  };
   const formMutation = useFormMutation({
     useMutation: useMutation(SIGNUP_MUTATION, { onCompleted }),
     formName: 'signup',
