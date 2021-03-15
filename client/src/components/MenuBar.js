@@ -1,21 +1,56 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
+import { useAuthContext } from '../context/auth';
+
 function MenuBar() {
-  const pathname = window.location.pathname;
-  const name = pathname === '/' ? 'home' : pathname.substr(1);
+  const location = useLocation();
+  const pathname = location.pathname;
+  const activeItem = pathname === '/' ? 'home' : pathname.substr(1);
 
-  const [activeItem, setActiveItem] = useState(name);
+  const authContext = useAuthContext();
 
-  const handleItemClick = (e, { name }) => setActiveItem(name);
+  if (authContext.user) {
+    return MenuBarAuth({
+      activeItem,
+      authContext
+    });
+  } else {
+    return MenuBarNotAuth({
+      activeItem
+    });
+  }
+}
 
+function MenuBarAuth({ activeItem, authContext }) {
   return (
     <Menu pointing secondary size='massive' color='teal'>
       <Menu.Item
         name='home'
         active={activeItem === 'home'}
-        onClick={handleItemClick}
+        as={Link}
+        to='/'
+      />
+      <Menu.Menu position='right'>
+        <Menu.Item content={authContext.user.username} />
+        <Menu.Item
+          name='signout'
+          onClick={authContext.signout}
+          as={Link}
+          to='/'
+        />
+      </Menu.Menu>
+    </Menu>
+  );
+}
+
+function MenuBarNotAuth({ activeItem }) {
+  return (
+    <Menu pointing secondary size='massive' color='teal'>
+      <Menu.Item
+        name='home'
+        active={activeItem === 'home'}
         as={Link}
         to='/'
       />
@@ -23,14 +58,12 @@ function MenuBar() {
         <Menu.Item
           name='signup'
           active={activeItem === 'signup'}
-          onClick={handleItemClick}
           as={Link}
           to='/signup'
         />
         <Menu.Item
           name='signin'
           active={activeItem === 'signin'}
-          onClick={handleItemClick}
           as={Link}
           to='/signin'
         />
