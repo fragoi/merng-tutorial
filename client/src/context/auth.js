@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+
+import useStoredState from '../hooks/useStoredState';
 
 const AuthContext = createContext({
   user: null,
@@ -7,7 +9,7 @@ const AuthContext = createContext({
 });
 
 function AuthProvider(props) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useStoredState(localStorage, "user");
   const signin = user => setUser(user);
   const signout = () => setUser(null);
   return (
