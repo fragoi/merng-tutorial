@@ -12,6 +12,7 @@ const SIGNUP_MUTATION = gql`
     signup(input: $input) {
       id
       token
+      username
     }
   }
 `;

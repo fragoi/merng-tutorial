@@ -12,6 +12,7 @@ const SIGNIN_MUTATION = gql`
     signin(username: $username, password: $password) {
       id
       token
+      username
     }
   }
 `;
