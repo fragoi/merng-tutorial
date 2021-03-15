@@ -1,26 +1,18 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext({
   user: null,
-  signin: data => { },
+  signin: user => { },
   signout: () => { }
 });
 
-function authReducer(state, action) {
-  switch (action.type) {
-    case 'SIGNIN': return { ...state, user: action.payload };
-    case 'SIGNOUT': return { ...state, user: null };
-    default: return state;
-  }
-}
-
 function AuthProvider(props) {
-  const [state, dispatch] = useReducer(authReducer, { user: null });
-  const signin = data => dispatch({ type: 'SIGNIN', payload: data });
-  const signout = () => dispatch({ type: 'SIGNOUT' });
+  const [user, setUser] = useState(null);
+  const signin = user => setUser(user);
+  const signout = () => setUser(null);
   return (
     <AuthContext.Provider
-      value={{ user: state.user, signin, signout }}
+      value={{ user, signin, signout }}
       {...props}
     />
   );
@@ -30,4 +22,20 @@ function useAuthContext() {
   return useContext(AuthContext);
 }
 
-export { AuthContext, AuthProvider, useAuthContext };
+function WhenAuthenticated({ children }) {
+  const authContext = useAuthContext();
+  return authContext.user ? children(authContext) : null;
+}
+
+function WhenNotAuthenticated({ children }) {
+  const authContext = useAuthContext();
+  return !authContext.user ? children(authContext) : null;
+}
+
+export {
+  AuthContext,
+  AuthProvider,
+  useAuthContext,
+  WhenAuthenticated,
+  WhenNotAuthenticated
+};
