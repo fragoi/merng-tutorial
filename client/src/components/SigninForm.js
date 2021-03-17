@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
-import { Form, Button, Message } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 
 import ErrorMessage from './ErrorMessage';
 import useFormMutation from '../hooks/useFormMutation';
@@ -72,17 +72,10 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         error={errors?.password}
       />
       <Button type='submit' color='teal'>Submit</Button>
-      {errors?.generic &&
-        <Message
-          error
-          content={errors?.generic}
-          visible={errors?.generic ? true : false} />
-      }
-      {!errors?.generic &&
-        <ErrorMessage
-          serverError={error.serverError}
-          validationError={error.validationError} />
-      }
+      <ErrorMessage
+        message={errors?.generic}
+        serverError={error.serverError}
+        validationError={error.validationError} />
     </Form>
   );
 }
