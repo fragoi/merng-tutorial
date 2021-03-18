@@ -47,8 +47,15 @@ function validate(values) {
   return errors;
 }
 
-function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
-  const { errors } = error;
+function FormRenderer({
+  loading,
+  serverError,
+  valid,
+  errors,
+  values,
+  handleChange,
+  handleSubmit
+}) {
   return (
     <Form
       name='signin'
@@ -60,7 +67,7 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='username'
         value={values.username}
         onChange={handleChange}
-        error={errors?.username}
+        error={errors.username}
       />
       <Form.Input
         label='Password'
@@ -69,13 +76,13 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='password'
         value={values.password}
         onChange={handleChange}
-        error={errors?.password}
+        error={errors.password}
       />
       <Button type='submit' color='teal'>Submit</Button>
       <ErrorMessage
-        message={errors?.generic}
-        serverError={error.serverError}
-        validationError={error.validationError} />
+        message={errors.generic}
+        serverError={serverError}
+        validationError={!valid} />
     </Form>
   );
 }

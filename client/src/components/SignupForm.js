@@ -26,6 +26,7 @@ function SignupForm() {
   };
   const formMutation = useFormMutation({
     useMutation: useMutation(SIGNUP_MUTATION, { onCompleted }),
+    valuesToVariables,
     formName: 'signup',
     initialValues: {
       username: '',
@@ -34,7 +35,6 @@ function SignupForm() {
       email: '',
       tc: false
     },
-    valuesToVariables,
     validate
   });
   return FormRenderer(formMutation);
@@ -54,8 +54,15 @@ function validate(values) {
   return errors;
 }
 
-function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
-  const { errors } = error;
+function FormRenderer({
+  loading,
+  serverError,
+  valid,
+  errors,
+  values,
+  handleChange,
+  handleSubmit
+}) {
   return (
     <Form
       name='signup'
@@ -67,7 +74,7 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='username'
         value={values.username}
         onChange={handleChange}
-        error={errors?.username}
+        error={errors.username}
       />
       <Form.Input
         label='Password'
@@ -76,7 +83,7 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='password'
         value={values.password}
         onChange={handleChange}
-        error={errors?.password}
+        error={errors.password}
       />
       <Form.Input
         label='Confirm Password'
@@ -85,7 +92,7 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='passwordConfirm'
         value={values.passwordConfirm}
         onChange={handleChange}
-        error={errors?.passwordConfirm}
+        error={errors.passwordConfirm}
       />
       <Form.Input
         label='Email'
@@ -93,7 +100,7 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='email'
         value={values.email}
         onChange={handleChange}
-        error={errors?.email}
+        error={errors.email}
       />
       <Form.Checkbox
         className='block'
@@ -101,12 +108,12 @@ function FormRenderer({ loading, error, values, handleChange, handleSubmit }) {
         name='tc'
         checked={values.tc}
         onChange={handleChange}
-        error={errors?.tc}
+        error={errors.tc}
       />
       <Button type='submit' color='teal'>Submit</Button>
       <ErrorMessage
-        serverError={error.serverError}
-        validationError={error.validationError} />
+        serverError={serverError}
+        validationError={!valid} />
     </Form>
   );
 }
