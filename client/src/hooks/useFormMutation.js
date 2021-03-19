@@ -19,17 +19,19 @@ function useFormMutation({
 
   return {
     loading,
-    serverError,
+    serverError: form.valid && serverError,
     ...form
   };
 }
 
 function errorHandler(setErrors, setServerError) {
   return error => {
-    const gqlError = error.graphQLErrors[0];
-    if (gqlError) {
-      setErrors(gqlError.extensions.errors);
+    const errors = error.graphQLErrors[0]?.extensions?.errors;
+    if (errors) {
+      setErrors(errors);
+      setServerError(false);
     } else {
+      setErrors({});
       setServerError(true);
     }
   };
