@@ -1,10 +1,13 @@
 import React from 'react';
-import App from './App';
-import ApolloClient from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { createHttpLink } from 'apollo-link-http';
-import { ApolloProvider } from '@apollo/react-hooks';
 
+import {
+  createHttpLink,
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider
+} from '@apollo/client';
+
+import App from './App';
 import { MERNG_SERVER } from './config.js';
 
 const httpLink = createHttpLink({
