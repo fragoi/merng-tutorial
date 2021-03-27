@@ -18,8 +18,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-function ApolloProvider() {
-  return <AP client={client} />;
+function ApolloProvider({ children }) {
+  return (
+    <AP client={client}>
+      {children}
+    </AP>
+  );
 }
 
 export default ApolloProvider;
