@@ -26,12 +26,12 @@ function useAuthContext() {
 
 function WhenAuthenticated({ children }) {
   const authContext = useAuthContext();
-  return authContext.user ? children(authContext) : null;
+  return authContext.user ? children : null;
 }
 
 function WhenNotAuthenticated({ children }) {
   const authContext = useAuthContext();
-  return !authContext.user ? children(authContext) : null;
+  return !authContext.user ? children : null;
 }
 
 export {
