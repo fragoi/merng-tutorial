@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ApolloProviderApp from './ApolloProviderApp';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProviderApp />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

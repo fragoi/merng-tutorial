@@ -4,11 +4,10 @@ import {
   createHttpLink,
   ApolloClient,
   InMemoryCache,
-  ApolloProvider
+  ApolloProvider as AP
 } from '@apollo/client';
 
-import App from './App';
-import { MERNG_SERVER } from './config.js';
+import { MERNG_SERVER } from '../config';
 
 const httpLink = createHttpLink({
   uri: MERNG_SERVER
@@ -19,12 +18,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-function ApolloProviderApp() {
-  return (
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  );
+function ApolloProvider() {
+  return <AP client={client} />;
 }
 
-export default ApolloProviderApp;
+export default ApolloProvider;
