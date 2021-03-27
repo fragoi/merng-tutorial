@@ -3,14 +3,14 @@ import React from 'react';
 import PageTitle from '../components/PageTitle';
 import RecentPosts from '../components/RecentPosts';
 import PostForm from '../components/PostForm';
-import { WhenAuthenticated } from '../context/auth';
+import { WhenAuth } from '../context/auth';
 
 function Home() {
   return (
     <div>
-      <WhenAuthenticated>
+      <WhenAuth>
         <PostForm />
-      </WhenAuthenticated>
+      </WhenAuth>
       <PageTitle>Recent Posts</PageTitle>
       <RecentPosts />
     </div>
