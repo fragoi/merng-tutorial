@@ -1,17 +1,17 @@
 import React, { createContext, useContext } from 'react';
 
-import useStoredState from '../hooks/useStoredState';
+import useStoredJWT from '../hooks/useStoredJWT';
 
 const AuthContext = createContext({
   user: null,
-  signin: user => { },
+  signin: token => { },
   signout: () => { }
 });
 
 function AuthProvider(props) {
-  const [user, setUser] = useStoredState(localStorage, "user");
-  const signin = user => setUser(user);
-  const signout = () => setUser(null);
+  const [user, setToken] = useStoredJWT(localStorage, "token");
+  const signin = token => setToken(token);
+  const signout = () => setToken(null);
   return (
     <AuthContext.Provider
       value={{ user, signin, signout }}

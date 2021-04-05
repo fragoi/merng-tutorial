@@ -10,9 +10,7 @@ import { useAuthContext } from '../context/auth';
 const SIGNUP_MUTATION = gql`
   mutation signup($input: SignupInput!) {
     signup(input: $input) {
-      id
       token
-      username
     }
   }
 `;
@@ -21,7 +19,7 @@ function SignupForm() {
   const authContext = useAuthContext();
   const history = useHistory();
   const onCompleted = data => {
-    authContext.signin(data.signup);
+    authContext.signin(data.signup.token);
     history.push('/');
   };
   const formMutation = useFormMutation({
