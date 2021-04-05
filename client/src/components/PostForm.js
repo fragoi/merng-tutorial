@@ -5,6 +5,7 @@ import { Form, Button } from 'semantic-ui-react';
 
 import ErrorMessage from './ErrorMessage';
 import useFormMutation from '../hooks/useFormMutation';
+import { GET_POSTS_QUERY } from './RecentPosts';
 
 const CREATE_POST_MUTATION = gql`
   mutation createPost($body: String!) {
@@ -20,7 +21,10 @@ function PostForm() {
     history.push(`/posts/${data.createPost.id}`);
   };
   const formMutation = useFormMutation({
-    useMutation: useMutation(CREATE_POST_MUTATION, { onCompleted }),
+    useMutation: useMutation(CREATE_POST_MUTATION, {
+      onCompleted,
+      refetchQueries: [{ query: GET_POSTS_QUERY }]
+    }),
     formName: 'createPost',
     initialValues: {
       body: ''

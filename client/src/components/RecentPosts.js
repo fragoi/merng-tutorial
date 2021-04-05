@@ -46,3 +46,4 @@ function PostCards({ posts }) {
 }
 
 export default RecentPosts;
+export { GET_POSTS_QUERY };
