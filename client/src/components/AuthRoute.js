@@ -10,7 +10,7 @@ function AuthRoute({ pub, prv, ...rest }) {
     return <Route {...rest}><Redirect to='/' /></Route>;
   } else if (prv && !user) {
     cleanProps(rest);
-    return <Route {...rest}><Redirect to='/login' /></Route>;
+    return <Route {...rest}><Redirect to='/signin' /></Route>;
   } else {
     return <Route {...rest} />
   }
