@@ -102,7 +102,7 @@ function FormRenderer({
       />
       <Form.Checkbox
         className='block'
-        label='I agree to the Terms and Conditions'
+        label='I agree there are no Terms and Conditions'
         name='tc'
         checked={values.tc}
         onChange={handleChange}
